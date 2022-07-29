@@ -34,6 +34,12 @@ export const Logon = styled.div`
 
     color: ${(props) => props.theme['title-secondary']};
 
+    transition: color 0.1s;
+
+    :hover {
+      color: #000000;
+    }
+
     > svg {
       color: ${(props) => props.theme.red};
     }
@@ -68,6 +74,12 @@ export const FormLogon = styled.form`
 
     color: ${(props) => props.theme.background};
     background-color: ${(props) => props.theme.red};
+
+    transition: background-color 0.1s;
+
+    :hover {
+      background-color: #d00024;
+    }
   }
 `
 
