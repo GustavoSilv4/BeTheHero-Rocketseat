@@ -39,12 +39,13 @@ export const InfoContainer = styled.div`
     color: ${(props) => props.theme['text-primary']};
   }
 
-  > button {
+  > a {
     display: flex;
     align-items: center;
     border: none;
     gap: 1rem;
 
+    text-decoration: none;
     cursor: pointer;
     font-size: 1.125rem;
     font-weight: bold;

@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
 export const Container = styled.div`
@@ -27,11 +28,12 @@ export const NavBar = styled.nav`
   gap: 1.5rem;
 `
 
-export const NewCaseButton = styled.button`
+export const NewCaseButton = styled(NavLink)`
   padding: 1.3rem 3rem;
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  text-decoration: none;
 
   font-size: 1.125rem;
   font-weight: bold;

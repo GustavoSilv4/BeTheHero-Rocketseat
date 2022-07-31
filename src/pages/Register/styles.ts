@@ -39,7 +39,7 @@ export const InfoContainer = styled.div`
     color: ${(props) => props.theme['text-primary']};
   }
 
-  > button {
+  > a {
     display: flex;
     align-items: center;
     border: none;
@@ -48,6 +48,7 @@ export const InfoContainer = styled.div`
     cursor: pointer;
     font-size: 1.125rem;
     font-weight: bold;
+    text-decoration: none;
 
     color: ${(props) => props.theme['title-secondary']};
 

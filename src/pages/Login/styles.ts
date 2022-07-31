@@ -21,13 +21,14 @@ export const Logon = styled.div`
     margin-bottom: 2rem;
   }
 
-  > button {
+  > a {
     display: flex;
     align-items: center;
     gap: 1rem;
 
     cursor: pointer;
     border: none;
+    text-decoration: none;
 
     font-size: 1.125rem;
     font-weight: bold;
