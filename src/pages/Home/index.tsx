@@ -3,8 +3,15 @@ import logo from '../../assets/Logo.svg'
 import { Power } from 'phosphor-react'
 import { CasesBox, CasesContainer, Container, HeaderContainer, Logout, NavBar, NewCaseButton } from './styles'
 import { CaseCard } from '../../components/CaseCard'
+import { useNavigate } from 'react-router-dom'
 
 export function Home() {
+  const navigate = useNavigate()
+
+  function handleLogout() {
+    navigate('/')
+  }
+
   return (
     <Container>
       <HeaderContainer>
@@ -13,8 +20,8 @@ export function Home() {
           <span>Bem vinda, APAD</span>
         </div>
         <NavBar>
-          <NewCaseButton>Cadastrar novo caso</NewCaseButton>
-          <Logout>
+          <NewCaseButton to={'/newcase'}>Cadastrar novo caso</NewCaseButton>
+          <Logout onClick={handleLogout}>
             <Power size={24} weight="bold" />
           </Logout>
         </NavBar>

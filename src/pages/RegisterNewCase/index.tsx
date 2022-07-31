@@ -2,6 +2,7 @@ import { ArrowLeft } from 'phosphor-react'
 import { Container, FormContainer, Frame, InfoContainer, Logo } from './styles'
 
 import logo from '../../assets/Logo.svg'
+import { NavLink } from 'react-router-dom'
 
 export function RegisterNewCase() {
   return (
@@ -13,9 +14,9 @@ export function RegisterNewCase() {
           </Logo>
           <h1>Cadastro novo caso</h1>
           <span>Descreva o caso detalhadamente para encontrar um herói para resolver isso.</span>
-          <button>
+          <NavLink to={'/home'}>
             <ArrowLeft size={24} weight="bold" /> Voltar para home
-          </button>
+          </NavLink>
         </InfoContainer>
         <FormContainer action="">
           <input type="text" placeholder="Título do caso" />

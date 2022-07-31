@@ -4,6 +4,7 @@ import logo from '../../assets/Logo.svg'
 import login from '../../assets/Login.png'
 
 import { Container, FormLogon, ImageLogonContainer, Logo, Logon, LogonContainer } from './styles'
+import { NavLink } from 'react-router-dom'
 
 export function Login() {
   return (
@@ -18,9 +19,9 @@ export function Login() {
             <input type="text" placeholder="Sua ID" />
             <button type="submit">Entrar</button>
           </FormLogon>
-          <button>
+          <NavLink to={'/register'}>
             <SignIn size={25} /> Não tenho cadastro
-          </button>
+          </NavLink>
         </Logon>
       </LogonContainer>
       <ImageLogonContainer>
