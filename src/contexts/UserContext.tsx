@@ -1,6 +1,11 @@
 import { createContext, ReactNode, useState } from 'react'
 
-export const UserContext = createContext({})
+interface UserContextType {
+  registerNewUser: (name: string, email: string) => number
+  findUserLogin: (id: number) => string
+}
+
+export const UserContext = createContext({} as UserContextType)
 
 interface UserContextProviderProps {
   children: ReactNode
@@ -13,7 +18,13 @@ interface UserProps {
 }
 
 export function UserContextProvider({ children }: UserContextProviderProps) {
-  const [users, setUsers] = useState<UserProps[]>([])
+  const [users, setUsers] = useState<UserProps[]>([
+    {
+      id: 1659315721367,
+      email: 'gustavo@gmail.com',
+      name: 'Gustavo',
+    },
+  ])
 
   const [activeUser, setActiveUser] = useState<UserProps>({} as UserProps)
 
@@ -29,5 +40,23 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     return newUser.id
   }
 
-  return <UserContext.Provider value={{}}>{children}</UserContext.Provider>
+  function findUserLogin(id: number): string {
+    const existUser = users.find((user) => user.id === id)
+
+    let message: string = ''
+
+    if (!existUser) {
+      message = 'ID não encontrado'
+    } else {
+      setActiveUser(existUser)
+      message = 'ID logado com sucesso'
+    }
+
+    return message
+  }
+
+  console.log(users)
+  console.log(activeUser)
+
+  return <UserContext.Provider value={{ registerNewUser, findUserLogin }}>{children}</UserContext.Provider>
 }
