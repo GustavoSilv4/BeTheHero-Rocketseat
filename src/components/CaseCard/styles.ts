@@ -11,6 +11,8 @@ export const Container = styled.div`
 `
 
 export const InfoCard = styled.div`
+  flex: 1;
+
   h3 {
     font-size: 0.875rem;
     font-weight: bold;
