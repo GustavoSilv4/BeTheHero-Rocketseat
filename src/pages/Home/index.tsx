@@ -4,12 +4,17 @@ import { Power } from 'phosphor-react'
 import { CasesBox, CasesContainer, Container, HeaderContainer, Logout, NavBar, NewCaseButton } from './styles'
 import { CaseCard } from '../../components/CaseCard'
 import { useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
+import { UserContext } from '../../contexts/UserContext'
 
 export function Home() {
+  const { userLogout } = useContext(UserContext)
+
   const navigate = useNavigate()
 
   function handleLogout() {
     navigate('/')
+    userLogout()
   }
 
   return (
