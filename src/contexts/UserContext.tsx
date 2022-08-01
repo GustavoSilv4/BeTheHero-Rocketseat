@@ -3,6 +3,7 @@ import { createContext, ReactNode, useState } from 'react'
 interface UserContextType {
   registerNewUser: (name: string, email: string) => number
   findUserLogin: (id: number) => string
+  userLogout: () => void
 }
 
 export const UserContext = createContext({} as UserContextType)
@@ -55,8 +56,12 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     return message
   }
 
+  function userLogout() {
+    setActiveUser({} as UserProps)
+  }
+
   console.log(users)
   console.log(activeUser)
 
-  return <UserContext.Provider value={{ registerNewUser, findUserLogin }}>{children}</UserContext.Provider>
+  return <UserContext.Provider value={{ registerNewUser, findUserLogin, userLogout }}>{children}</UserContext.Provider>
 }
