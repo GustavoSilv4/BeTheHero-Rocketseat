@@ -1,20 +1,33 @@
 import { Trash } from 'phosphor-react'
+import { useContext } from 'react'
+import { CaseContext } from '../../contexts/CaseContext'
 import { ButtonDelete, Container, InfoCard } from './styles'
 
-export function CaseCard() {
+interface CardProps {
+  id: number
+  title: string
+  description: string
+  value: number
+}
+
+export function CaseCard({ id, title, description, value }: CardProps) {
+  const { deleteCase } = useContext(CaseContext)
+
+  function handleDeleteCase() {
+    deleteCase(id)
+  }
+
   return (
     <Container>
       <InfoCard>
         <h3>CASO:</h3>
-        <span>Cadelinha atropelada</span>
+        <span>{title}</span>
         <h3>DESCRICAO:</h3>
-        <span>
-          A cadelinha Jolie foi atropelada por um carro no bairro Santana e teve que passar por uma cirurgia às pressas.
-        </span>
+        <span>{description}</span>
         <h3>VALOR:</h3>
-        <span>R$ 120,00</span>
+        <span>R$ {String(value)}</span>
       </InfoCard>
-      <ButtonDelete>
+      <ButtonDelete onClick={handleDeleteCase}>
         <Trash size={24} />
       </ButtonDelete>
     </Container>
