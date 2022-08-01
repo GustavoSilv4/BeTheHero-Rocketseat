@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useState } from 'react'
 
 interface CasesProps {
-  id?: number
+  id: number
   title: string
   description: string
   value: number
