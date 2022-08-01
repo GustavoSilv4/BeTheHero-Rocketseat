@@ -6,9 +6,11 @@ import { CaseCard } from '../../components/CaseCard'
 import { useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { UserContext } from '../../contexts/UserContext'
+import { CaseContext } from '../../contexts/CaseContext'
 
 export function Home() {
   const { userLogout } = useContext(UserContext)
+  const { cases } = useContext(CaseContext)
 
   const navigate = useNavigate()
 
@@ -35,11 +37,9 @@ export function Home() {
       <CasesContainer>
         <h1>Casos cadastrados</h1>
         <CasesBox>
-          <CaseCard />
-          <CaseCard />
-          <CaseCard />
-          <CaseCard />
-          <CaseCard />
+          {cases.map((c) => (
+            <CaseCard key={c.id} id={c.id} title={c.title} description={c.description} value={c.value} />
+          ))}
         </CasesBox>
       </CasesContainer>
     </Container>
