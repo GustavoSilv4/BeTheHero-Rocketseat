@@ -10,6 +10,7 @@ interface CasesProps {
 interface CaseContextProps {
   registerNewCase: ({ title, description, value }: CasesProps) => void
   deleteCase: (id: number) => void
+  cases: CasesProps[]
 }
 
 export const CaseContext = createContext({} as CaseContextProps)
@@ -39,5 +40,5 @@ export function CaseContextProvider({ children }: CaseContextProviderProps) {
 
   console.log('Cases', cases)
 
-  return <CaseContext.Provider value={{ registerNewCase, deleteCase }}>{children}</CaseContext.Provider>
+  return <CaseContext.Provider value={{ registerNewCase, deleteCase, cases }}>{children}</CaseContext.Provider>
 }
