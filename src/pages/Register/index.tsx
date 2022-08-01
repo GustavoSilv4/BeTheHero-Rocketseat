@@ -3,8 +3,22 @@ import { Container, FormContainer, Frame, InfoContainer, Logo } from './styles'
 
 import logo from '../../assets/Logo.svg'
 import { NavLink } from 'react-router-dom'
+import { useContext, useState } from 'react'
+import { UserContext } from '../../contexts/UserContext'
 
 export function Register() {
+  const { registerNewUser } = useContext(UserContext)
+
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+
+  function handleRegisterNewUser(e) {
+    e.preventDefault()
+
+    const id = registerNewUser(name, email)
+    console.log(id)
+  }
+
   return (
     <Container>
       <Frame>
@@ -18,9 +32,9 @@ export function Register() {
             <ArrowLeft size={24} weight="bold" /> Voltar para o logon
           </NavLink>
         </InfoContainer>
-        <FormContainer action="">
-          <input type="text" placeholder="Nome da ONG" />
-          <input type="text" placeholder="E-mail" />
+        <FormContainer action="" onSubmit={handleRegisterNewUser}>
+          <input type="text" placeholder="Nome da ONG" onChange={(e) => setName(e.target.value)} />
+          <input type="text" placeholder="E-mail" onChange={(e) => setEmail(e.target.value)} />
           <input type="text" placeholder="WhatsApp" />
           <div>
             <input type="text" placeholder="Cidade" />
