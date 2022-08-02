@@ -1,21 +1,21 @@
 import { createContext, ReactNode, useState } from 'react'
 
+interface UserProps {
+  id: number
+  name: string
+  email: string
+}
 interface UserContextType {
   registerNewUser: (name: string, email: string) => number
   findUserLogin: (id: number) => boolean
   userLogout: () => void
+  activeUser: UserProps[]
 }
 
 export const UserContext = createContext({} as UserContextType)
 
 interface UserContextProviderProps {
   children: ReactNode
-}
-
-interface UserProps {
-  id: number
-  name: string
-  email: string
 }
 
 export function UserContextProvider({ children }: UserContextProviderProps) {
@@ -27,7 +27,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     },
   ])
 
-  const [activeUser, setActiveUser] = useState<UserProps>({} as UserProps)
+  const [activeUser, setActiveUser] = useState<UserProps[]>([])
 
   function registerNewUser(name: string, email: string): number {
     const newUser = {
@@ -49,7 +49,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     if (!existUser) {
       success = false
     } else {
-      setActiveUser(existUser)
+      setActiveUser((state) => [...state, existUser])
       success = true
     }
 
@@ -57,11 +57,15 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   }
 
   function userLogout() {
-    setActiveUser({} as UserProps)
+    setActiveUser([])
   }
 
   console.log(users)
   console.log(activeUser)
 
-  return <UserContext.Provider value={{ registerNewUser, findUserLogin, userLogout }}>{children}</UserContext.Provider>
+  return (
+    <UserContext.Provider value={{ registerNewUser, findUserLogin, userLogout, activeUser }}>
+      {children}
+    </UserContext.Provider>
+  )
 }
