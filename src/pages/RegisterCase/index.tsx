@@ -1,14 +1,17 @@
+import { useContext, useEffect } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { CaseContext } from '../../contexts/CaseContext'
+import { UserContext } from '../../contexts/UserContext'
+import { useToast } from '@chakra-ui/react'
+
 import * as zod from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { ArrowLeft } from 'phosphor-react'
-import { Container, FormContainer, Frame, InfoContainer, Logo } from './styles'
-
 import logo from '../../assets/Logo.svg'
-import { NavLink } from 'react-router-dom'
-import { useContext } from 'react'
-import { CaseContext } from '../../contexts/CaseContext'
-import { useForm } from 'react-hook-form'
+import { ArrowLeft } from 'phosphor-react'
+
+import { Container, FormContainer, Frame, InfoContainer, Logo } from './styles'
 
 const registerCaseValidationScheme = zod.object({
   title: zod.string().min(1, 'Digite um titulo para o caso!'),
@@ -29,6 +32,17 @@ export function RegisterCase() {
   })
 
   const { registerNewCase } = useContext(CaseContext)
+  const { activeUser } = useContext(UserContext)
+
+  const toast = useToast()
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (activeUser.length <= 0) {
+      navigate('/')
+    }
+  }, [navigate, activeUser])
 
   function handleCreateNewCase(data: RegisterCaseData) {
     registerNewCase({
@@ -36,6 +50,13 @@ export function RegisterCase() {
       title: data.title,
       description: data.description,
       value: Number(data.value),
+    })
+
+    toast({
+      title: 'Caso cadastrado com sucesso!',
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
     })
   }
 
