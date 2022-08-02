@@ -2,7 +2,7 @@ import { createContext, ReactNode, useState } from 'react'
 
 interface UserContextType {
   registerNewUser: (name: string, email: string) => number
-  findUserLogin: (id: number) => string
+  findUserLogin: (id: number) => boolean
   userLogout: () => void
 }
 
@@ -41,19 +41,19 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     return newUser.id
   }
 
-  function findUserLogin(id: number): string {
+  function findUserLogin(id: number): boolean {
     const existUser = users.find((user) => user.id === id)
 
-    let message: string = ''
+    let success: boolean
 
     if (!existUser) {
-      message = 'ID não encontrado'
+      success = false
     } else {
       setActiveUser(existUser)
-      message = 'ID logado com sucesso'
+      success = true
     }
 
-    return message
+    return success
   }
 
   function userLogout() {
