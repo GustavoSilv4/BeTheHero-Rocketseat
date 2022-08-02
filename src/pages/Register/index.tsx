@@ -1,13 +1,16 @@
-import * as zod from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { ArrowLeft } from 'phosphor-react'
-import { Container, FormContainer, Frame, InfoContainer, Logo } from './styles'
-
-import logo from '../../assets/Logo.svg'
-import { NavLink } from 'react-router-dom'
 import { useContext } from 'react'
 import { UserContext } from '../../contexts/UserContext'
+import { NavLink } from 'react-router-dom'
+
 import { useForm } from 'react-hook-form'
+import { useToast } from '@chakra-ui/react'
+import * as zod from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+import { ArrowLeft } from 'phosphor-react'
+import logo from '../../assets/Logo.svg'
+
+import { Container, FormContainer, Frame, InfoContainer, Logo } from './styles'
 
 const registerUserValidationScheme = zod.object({
   name: zod.string().min(1, 'Informe o nome da ONG'),
@@ -22,7 +25,9 @@ type RegisterUserData = zod.infer<typeof registerUserValidationScheme>
 export function Register() {
   const { registerNewUser } = useContext(UserContext)
 
-  const { register, handleSubmit, reset, formState } = useForm<RegisterUserData>({
+  const toast = useToast()
+
+  const { register, handleSubmit, reset } = useForm<RegisterUserData>({
     resolver: zodResolver(registerUserValidationScheme),
     defaultValues: {
       name: '',
@@ -36,11 +41,14 @@ export function Register() {
   function handleRegisterNewUser(data: RegisterUserData) {
     const id = registerNewUser(data.name, data.email)
     reset()
-
-    console.log(id)
+    toast({
+      title: 'ONG Registrada com sucesso',
+      description: `Aqui está o ID da sua ONG para login: ${id}`,
+      status: 'success',
+      duration: 20000,
+      isClosable: true,
+    })
   }
-
-  console.log(formState.errors)
 
   return (
     <Container>

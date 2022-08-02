@@ -1,16 +1,19 @@
-import { SignIn } from 'phosphor-react'
+import { useContext } from 'react'
+import { UserContext } from '../../contexts/UserContext'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { useToast } from '@chakra-ui/react'
 
+import { SignIn } from 'phosphor-react'
 import logo from '../../assets/Logo.svg'
 import login from '../../assets/Login.png'
 
 import { Container, FormLogon, ImageLogonContainer, Logo, Logon, LogonContainer } from './styles'
-import { NavLink, useNavigate } from 'react-router-dom'
-import { useContext } from 'react'
-import { UserContext } from '../../contexts/UserContext'
-import { useForm } from 'react-hook-form'
 
 export function Login() {
   const { findUserLogin } = useContext(UserContext)
+
+  const toast = useToast()
 
   const { register, handleSubmit, watch, reset } = useForm({
     defaultValues: {
@@ -24,6 +27,13 @@ export function Login() {
 
   function handleLogin() {
     if (inputIdValue === '') {
+      toast({
+        title: 'Campo não preenchido!',
+        description: 'Preencha o campo com sua ID de login',
+        status: 'warning',
+        duration: 9000,
+        isClosable: true,
+      })
       return
     }
 
@@ -32,9 +42,16 @@ export function Login() {
     if (result === true) {
       reset()
       navigate('/home')
+      return
     }
 
-    console.log(result)
+    toast({
+      title: 'ID Invalido!',
+      description: 'O ID Fornecido não está cadastrado',
+      status: 'error',
+      duration: 9000,
+      isClosable: true,
+    })
   }
 
   return (
