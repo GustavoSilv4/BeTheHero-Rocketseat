@@ -1,23 +1,46 @@
+import * as zod from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowLeft } from 'phosphor-react'
 import { Container, FormContainer, Frame, InfoContainer, Logo } from './styles'
 
 import logo from '../../assets/Logo.svg'
 import { NavLink } from 'react-router-dom'
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { UserContext } from '../../contexts/UserContext'
+import { useForm } from 'react-hook-form'
+
+const registerUserValidationScheme = zod.object({
+  name: zod.string().min(1, 'Informe o nome da ONG'),
+  email: zod.string().email('Email invalido!'),
+  whatsapp: zod.string().regex(/\d\d\9\d\d\d\d\d\d\d\d/, 'Whatsapp invalido! (Ex: DD912345678)'), // (/\(d\d\)9\d\d\d\d\d\d\d\d/),
+  city: zod.string().min(1, 'Informe a cidade'),
+  uf: zod.string().min(2, 'Informe o UF').max(2),
+})
+
+type RegisterUserData = zod.infer<typeof registerUserValidationScheme>
 
 export function Register() {
   const { registerNewUser } = useContext(UserContext)
 
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
+  const { register, handleSubmit, reset, formState } = useForm<RegisterUserData>({
+    resolver: zodResolver(registerUserValidationScheme),
+    defaultValues: {
+      name: '',
+      email: '',
+      city: '',
+      uf: '',
+      whatsapp: '',
+    },
+  })
 
-  function handleRegisterNewUser(e) {
-    e.preventDefault()
+  function handleRegisterNewUser(data: RegisterUserData) {
+    const id = registerNewUser(data.name, data.email)
+    reset()
 
-    const id = registerNewUser(name, email)
     console.log(id)
   }
+
+  console.log(formState.errors)
 
   return (
     <Container>
@@ -32,13 +55,13 @@ export function Register() {
             <ArrowLeft size={24} weight="bold" /> Voltar para o logon
           </NavLink>
         </InfoContainer>
-        <FormContainer action="" onSubmit={handleRegisterNewUser}>
-          <input type="text" placeholder="Nome da ONG" onChange={(e) => setName(e.target.value)} />
-          <input type="text" placeholder="E-mail" onChange={(e) => setEmail(e.target.value)} />
-          <input type="text" placeholder="WhatsApp" />
+        <FormContainer action="" onSubmit={handleSubmit(handleRegisterNewUser)}>
+          <input type="text" placeholder="Nome da ONG" {...register('name')} />
+          <input type="text" placeholder="E-mail" {...register('email')} />
+          <input type="tel" placeholder="WhatsApp" {...register('whatsapp')} />
           <div>
-            <input type="text" placeholder="Cidade" />
-            <input type="text" placeholder="UF" />
+            <input type="text" placeholder="Cidade" {...register('city')} />
+            <input type="text" placeholder="UF" {...register('uf')} />
           </div>
           <button type="submit">Cadastrar</button>
         </FormContainer>

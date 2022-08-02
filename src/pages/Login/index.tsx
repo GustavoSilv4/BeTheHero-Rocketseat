@@ -5,29 +5,36 @@ import login from '../../assets/Login.png'
 
 import { Container, FormLogon, ImageLogonContainer, Logo, Logon, LogonContainer } from './styles'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { UserContext } from '../../contexts/UserContext'
+import { useForm } from 'react-hook-form'
 
 export function Login() {
   const { findUserLogin } = useContext(UserContext)
 
+  const { register, handleSubmit, watch, reset } = useForm({
+    defaultValues: {
+      id: '',
+    },
+  })
+
   const navigate = useNavigate()
 
-  const [id, setId] = useState<number>(0)
+  const inputIdValue = watch('id')
 
-  function handleLogin(e) {
-    e.preventDefault()
-
-    if (id === 0) {
+  function handleLogin() {
+    if (inputIdValue === '') {
       return
     }
 
-    const result = findUserLogin(id)
+    const result = findUserLogin(Number(inputIdValue))
 
-    if (result === 'ID logado com sucesso') {
-      // ** OBS: Mudar para verificacao do conteudo do objeto activeUser **
+    if (result === true) {
+      reset()
       navigate('/home')
     }
+
+    console.log(result)
   }
 
   return (
@@ -38,8 +45,8 @@ export function Login() {
         </Logo>
         <Logon>
           <h1>Faça seu logon</h1>
-          <FormLogon action="" onSubmit={handleLogin}>
-            <input type="number" placeholder="Sua ID" onChange={(e) => setId(Number(e.target.value))} />
+          <FormLogon onSubmit={handleSubmit(handleLogin)}>
+            <input type="number" placeholder="Sua ID" {...register('id')} />
             <button type="submit">Entrar</button>
           </FormLogon>
           <NavLink to={'/register'}>
