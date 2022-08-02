@@ -22,7 +22,7 @@ export function CaseCard({ id, title, description, value }: CardProps) {
       <InfoCard>
         <h3>CASO:</h3>
         <span>{title}</span>
-        <h3>DESCRICAO:</h3>
+        <h3>DESCRIÇÃO:</h3>
         <span>{description}</span>
         <h3>VALOR:</h3>
         <span>R$ {String(value)}</span>
