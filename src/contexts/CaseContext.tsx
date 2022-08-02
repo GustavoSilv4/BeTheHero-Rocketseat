@@ -38,7 +38,5 @@ export function CaseContextProvider({ children }: CaseContextProviderProps) {
     setCases(caseswithoutDeleted)
   }
 
-  console.log('Cases', cases)
-
   return <CaseContext.Provider value={{ registerNewCase, deleteCase, cases }}>{children}</CaseContext.Provider>
 }
