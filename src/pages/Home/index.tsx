@@ -1,18 +1,25 @@
-import logo from '../../assets/Logo.svg'
-
-import { Power } from 'phosphor-react'
-import { CasesBox, CasesContainer, Container, HeaderContainer, Logout, NavBar, NewCaseButton } from './styles'
-import { CaseCard } from '../../components/CaseCard'
-import { useNavigate } from 'react-router-dom'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { UserContext } from '../../contexts/UserContext'
 import { CaseContext } from '../../contexts/CaseContext'
+import { useNavigate } from 'react-router-dom'
+
+import { CaseCard } from '../../components/CaseCard'
+
+import { Power } from 'phosphor-react'
+import logo from '../../assets/Logo.svg'
+import { CasesBox, CasesContainer, Container, HeaderContainer, Logout, NavBar, NewCaseButton } from './styles'
 
 export function Home() {
-  const { userLogout } = useContext(UserContext)
+  const { userLogout, activeUser } = useContext(UserContext)
   const { cases } = useContext(CaseContext)
 
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (activeUser.length <= 0) {
+      navigate('/')
+    }
+  }, [navigate, activeUser])
 
   function handleLogout() {
     navigate('/')
@@ -24,7 +31,7 @@ export function Home() {
       <HeaderContainer>
         <div>
           <img src={logo} alt="" />
-          <span>Bem vinda, APAD</span>
+          <span>Bem vinda, {activeUser.map((user) => user.name)}</span>
         </div>
         <NavBar>
           <NewCaseButton to={'/newcase'}>Cadastrar novo caso</NewCaseButton>
