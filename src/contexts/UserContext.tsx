@@ -60,9 +60,6 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     setActiveUser([])
   }
 
-  console.log(users)
-  console.log(activeUser)
-
   return (
     <UserContext.Provider value={{ registerNewUser, findUserLogin, userLogout, activeUser }}>
       {children}
