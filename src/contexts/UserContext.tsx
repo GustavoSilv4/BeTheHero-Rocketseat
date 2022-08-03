@@ -9,7 +9,7 @@ interface UserContextType {
   registerNewUser: (name: string, email: string) => number
   findUserLogin: (id: number) => boolean
   userLogout: () => void
-  activeUser: UserProps[]
+  activeUser: UserProps | null
 }
 
 export const UserContext = createContext({} as UserContextType)
@@ -27,7 +27,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     },
   ])
 
-  const [activeUser, setActiveUser] = useState<UserProps[]>([])
+  const [activeUser, setActiveUser] = useState<UserProps | null>(null)
 
   function registerNewUser(name: string, email: string): number {
     const newUser = {
@@ -49,7 +49,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     if (!existUser) {
       success = false
     } else {
-      setActiveUser((state) => [...state, existUser])
+      setActiveUser(existUser)
       success = true
     }
 
@@ -57,7 +57,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   }
 
   function userLogout() {
-    setActiveUser([])
+    setActiveUser(null)
   }
 
   return (
