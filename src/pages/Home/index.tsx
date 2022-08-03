@@ -16,7 +16,7 @@ export function Home() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (activeUser.length <= 0) {
+    if (activeUser === null) {
       navigate('/')
     }
   }, [navigate, activeUser])
@@ -31,7 +31,7 @@ export function Home() {
       <HeaderContainer>
         <div>
           <img src={logo} alt="" />
-          <span>Bem vinda, {activeUser.map((user) => user.name)}</span>
+          <span>Bem vinda, {activeUser?.name}</span>
         </div>
         <NavBar>
           <NewCaseButton to={'/newcase'}>Cadastrar novo caso</NewCaseButton>

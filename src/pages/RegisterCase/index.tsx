@@ -37,7 +37,7 @@ export function RegisterCase() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (activeUser.length <= 0) {
+    if (activeUser === null) {
       navigate('/')
     }
   }, [navigate, activeUser])
