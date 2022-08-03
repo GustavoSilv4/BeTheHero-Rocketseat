@@ -1,4 +1,3 @@
-import { ChakraProvider } from '@chakra-ui/react'
 import { BrowserRouter } from 'react-router-dom'
 import { CaseContextProvider } from './contexts/CaseContext'
 import { UserContextProvider } from './contexts/UserContext'
@@ -9,9 +8,7 @@ export function App() {
     <BrowserRouter>
       <UserContextProvider>
         <CaseContextProvider>
-          <ChakraProvider>
-            <Router />
-          </ChakraProvider>
+          <Router />
         </CaseContextProvider>
       </UserContextProvider>
     </BrowserRouter>

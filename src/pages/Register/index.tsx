@@ -3,9 +3,9 @@ import { UserContext } from '../../contexts/UserContext'
 import { NavLink } from 'react-router-dom'
 
 import { useForm } from 'react-hook-form'
-import { useToast } from '@chakra-ui/react'
 import * as zod from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import toast, { Toaster } from 'react-hot-toast'
 
 import { ArrowLeft } from 'phosphor-react'
 import logo from '../../assets/Logo.svg'
@@ -25,8 +25,6 @@ type RegisterUserData = zod.infer<typeof registerUserValidationScheme>
 export function Register() {
   const { registerNewUser } = useContext(UserContext)
 
-  const toast = useToast()
-
   const { register, handleSubmit, reset } = useForm<RegisterUserData>({
     resolver: zodResolver(registerUserValidationScheme),
     defaultValues: {
@@ -41,12 +39,14 @@ export function Register() {
   function handleRegisterNewUser(data: RegisterUserData) {
     const id = registerNewUser(data.name, data.email)
     reset()
-    toast({
-      title: 'ONG Registrada com sucesso',
-      description: `Aqui está o ID da sua ONG para login: ${id}`,
-      status: 'success',
-      duration: 20000,
-      isClosable: true,
+
+    toast.success(`Aqui está o ID da sua ONG para login: ${id}`, {
+      duration: 15000,
+      style: {
+        borderRadius: '10px',
+        background: '#333',
+        color: '#fff',
+      },
     })
   }
 
@@ -74,6 +74,7 @@ export function Register() {
           <button type="submit">Cadastrar</button>
         </FormContainer>
       </Frame>
+      <Toaster />
     </Container>
   )
 }

@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { CaseContext } from '../../contexts/CaseContext'
 import { UserContext } from '../../contexts/UserContext'
-import { useToast } from '@chakra-ui/react'
+import toast, { Toaster } from 'react-hot-toast'
 
 import * as zod from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -34,8 +34,6 @@ export function RegisterCase() {
   const { registerNewCase } = useContext(CaseContext)
   const { activeUser } = useContext(UserContext)
 
-  const toast = useToast()
-
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -52,11 +50,13 @@ export function RegisterCase() {
       value: Number(data.value),
     })
 
-    toast({
-      title: 'Caso cadastrado com sucesso!',
-      status: 'success',
+    toast.success(`Caso cadastrado com sucesso!`, {
       duration: 5000,
-      isClosable: true,
+      style: {
+        borderRadius: '10px',
+        background: '#333',
+        color: '#fff',
+      },
     })
   }
 
@@ -80,6 +80,7 @@ export function RegisterCase() {
           <button type="submit">Cadastrar</button>
         </FormContainer>
       </Frame>
+      <Toaster />
     </Container>
   )
 }

@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { UserContext } from '../../contexts/UserContext'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { useToast } from '@chakra-ui/react'
+import toast, { Toaster } from 'react-hot-toast'
 
 import { SignIn } from 'phosphor-react'
 import logo from '../../assets/Logo.svg'
@@ -12,8 +12,6 @@ import { Container, FormLogon, ImageLogonContainer, Logo, Logon, LogonContainer 
 
 export function Login() {
   const { findUserLogin } = useContext(UserContext)
-
-  const toast = useToast()
 
   const { register, handleSubmit, watch, reset } = useForm({
     defaultValues: {
@@ -27,12 +25,13 @@ export function Login() {
 
   function handleLogin() {
     if (inputIdValue === '') {
-      toast({
-        title: 'Campo não preenchido!',
-        description: 'Preencha o campo com sua ID de login',
-        status: 'warning',
-        duration: 9000,
-        isClosable: true,
+      toast.error('Preencha o campo com sua ID de login!', {
+        duration: 5000,
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
       })
       return
     }
@@ -45,12 +44,13 @@ export function Login() {
       return
     }
 
-    toast({
-      title: 'ID Invalido!',
-      description: 'O ID Fornecido não está cadastrado',
-      status: 'error',
-      duration: 9000,
-      isClosable: true,
+    toast.error('O ID Fornecido não está cadastrado', {
+      duration: 5000,
+      style: {
+        borderRadius: '10px',
+        background: '#333',
+        color: '#fff',
+      },
     })
   }
 
@@ -74,6 +74,7 @@ export function Login() {
       <ImageLogonContainer>
         <img src={login} alt="" />
       </ImageLogonContainer>
+      <Toaster />
     </Container>
   )
 }
